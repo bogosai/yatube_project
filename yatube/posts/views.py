@@ -1,10 +1,10 @@
-from http.client import HTTPResponse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 
 from .models import Group, Post
 
 # Create your views here.
+
 
 def index(request):
     # Одна строка вместо тысячи слов на SQL:
@@ -16,6 +16,7 @@ def index(request):
         'posts': posts,
     }
     return render(request, 'posts/index.html', context)
+
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
@@ -30,6 +31,7 @@ def group_posts(request, slug):
         'posts': posts,
     }
     return render(request, 'posts/group_list.html', context)
+
 
 def group_list(request):
     return HttpResponse("list of groups")
