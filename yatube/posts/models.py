@@ -8,8 +8,8 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField(max_length=256)
-    slug = models.SlugField()
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
     description = models.TextField()
 
     def __str__(self) -> str:
@@ -26,8 +26,11 @@ class Post(models.Model):
     )
     group = models.ForeignKey(
         Group,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name='group'
+        related_name='posts'
     )
+    
+    class Meta:
+        ordering = ['-pub_date']
