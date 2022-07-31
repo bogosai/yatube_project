@@ -6,7 +6,8 @@ DISPLAY_RECORDS: int = 10
 
 
 def index(request):
-    posts = Post.objects.order_by('-pub_date')[:10]
+    posts = (Post.objects.select_related('group', 'author').all()
+             [:DISPLAY_RECORDS])
     context = {
         'posts': posts,
     }
@@ -15,8 +16,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    group = Group.objects.get(title=group)
-    posts = (group.posts.select_related('group', 'author').filter(group=group)
+    posts = (group.posts.select_related('group', 'author').all()
              [:DISPLAY_RECORDS])
     context = {
         'group': group,
